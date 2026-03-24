@@ -19,7 +19,7 @@
             --font-tech: 'Chivo Mono', monospace;
         }
 
-        /* 100% RESPONSIVE RESET - NO HORIZONTAL SCROLLING */
+        /* 100% RESPONSIVE RESET */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { 
             max-width: 100vw; 
@@ -70,16 +70,21 @@
         .marquee-content span { margin: 0 1.5rem; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* BENTO GRID */
+        /* BENTO GRID & READABILITY FIX */
         .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; }
         .project-card {
             background: var(--bg-dark); border: var(--border-thick); padding: 2rem;
-            position: relative; display: flex; flex-direction: column; transition: 0.2s;
+            position: relative; display: flex; flex-direction: column; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .project-card::before { content: ''; position: absolute; top: 6px; left: 6px; right: -10px; bottom: -10px; background: var(--text-main); z-index: -1; }
-        .project-card:hover { transform: translate(-3px, -3px); }
-        .project-card:hover::before { background: var(--acid-yellow); }
+        .project-card::before { content: ''; position: absolute; top: 6px; left: 6px; right: -10px; bottom: -10px; background: var(--text-main); z-index: -1; transition: 0.3s; }
         
+        /* THE HOVER FIX: TEXT TURNS BLACK ON YELLOW BACKGROUND */
+        .project-card:hover { background: var(--acid-yellow); color: #000; border-color: #000; transform: translate(-3px, -3px); }
+        .project-card:hover h3 { color: #000; }
+        .project-card:hover p { color: #222; }
+        .project-card:hover .tech-tag { border-color: #000; color: #000; }
+        .project-card:hover::before { background: var(--cyan-neon); }
+
         .tech-tag { border: 2px solid var(--text-main); padding: 0.2rem 0.5rem; font-size: 0.75rem; font-weight: 700; display: inline-block; margin: 0 0.4rem 0.4rem 0; text-transform: uppercase; }
         .tag-collab { border-color: var(--cyan-neon); color: var(--cyan-neon); }
 
@@ -87,11 +92,12 @@
             margin-top: auto; background: var(--cyan-neon); color: var(--bg-dark); border: 3px solid var(--bg-dark);
             padding: 0.8rem; font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; cursor: pointer; text-transform: uppercase;
         }
+        .project-card:hover .btn-gallery { background: #000; color: var(--cyan-neon); border-color: #000; }
 
         /* 100 DAY REPO LINKS */
         .repo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
         .repo-link { display: block; text-decoration: none; color: var(--bg-dark); background: var(--text-main); border: var(--border-thick); padding: 1.5rem; transition: 0.2s; }
-        .repo-link:hover { background: var(--acid-yellow); transform: scale(1.02); }
+        .repo-link:hover { background: var(--acid-yellow); color: #000; transform: scale(1.02); }
         .repo-day { font-family: var(--font-display); font-size: 2.5rem; line-height: 1; }
         .repo-title { font-weight: 900; text-transform: uppercase; font-size: 0.9rem; margin-top: 5px; }
 
@@ -124,7 +130,7 @@
         /* FOOTER & CONTACT */
         .footer-cta { background: var(--text-main); color: var(--bg-dark); padding: 4rem 1.5rem; border: var(--border-thick); text-align: center; }
         .btn-massive { display: block; font-family: var(--font-display); font-size: clamp(1.8rem, 5vw, 3.5rem); text-transform: uppercase; text-decoration: none; color: var(--bg-dark); background: var(--cyan-neon); border: 4px solid var(--bg-dark); padding: 1rem; margin-top: 2rem; box-shadow: 8px 8px 0px var(--bg-dark); transition: 0.2s; }
-        .btn-massive:hover { transform: translate(-4px, -4px); box-shadow: 12px 12px 0px var(--acid-yellow); }
+        .btn-massive:hover { background: #000; color: var(--cyan-neon); transform: translate(-4px, -4px); box-shadow: 12px 12px 0px var(--acid-yellow); }
         .social-links { margin-top: 2.5rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; font-weight: 900; }
         .social-links a { color: var(--bg-dark); text-decoration: none; border-bottom: 3px solid var(--bg-dark); font-size: 1.1rem; }
     </style>
@@ -259,10 +265,9 @@
                     <p>Lagos State University (2024-Present)</p>
                 </div>
                 <div class="cred-box">
-                    <h3>Certifications</h3>
+                    <h3>Security Certs</h3>
                     <div class="cert-check">ISC2 Candidate</div>
                     <div class="cert-check">Cisco Networking Essentials</div>
-                    <div class="cert-check">Cisco Intro to Cybersecurity</div>
                     <div class="cert-check">CCNA (In View)</div>
                 </div>
             </div>
@@ -320,9 +325,7 @@
         const closeM = () => { modal.classList.remove('active'); document.body.style.overflow = 'auto'; };
         btnClose.addEventListener('click', closeM);
         modal.addEventListener('click', (e) => { if(e.target === modal) closeM(); });
-        document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeM(); });
 
-        // Clock Function
         setInterval(() => {
             const now = new Date();
             document.getElementById('clock').innerText = now.toTimeString().split(' ')[0];
