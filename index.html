@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timilehin Oyinlola | Full-Stack & Security</title>
+    <title>Timilehin Oyinlola | Full-Stack Node.js & Security</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     
@@ -22,27 +22,28 @@
         /* 100% RESPONSIVE RESET */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { 
-            max-width: 100vw; 
-            overflow-x: hidden; 
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: var(--font-tech);
-            line-height: 1.6;
-            scroll-behavior: smooth;
+            max-width: 100vw; overflow-x: hidden; 
+            background-color: var(--bg-dark); color: var(--text-main);
+            font-family: var(--font-tech); line-height: 1.6; scroll-behavior: smooth;
         }
 
         body {
             background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.01) 2px, rgba(255, 255, 255, 0.01) 4px);
         }
 
-        /* TERMINAL HEADER */
         .terminal-nav {
             background: #111; border-bottom: 2px solid var(--text-main);
             padding: 10px 20px; font-size: 0.7rem; display: flex; justify-content: space-between;
             position: sticky; top: 0; z-index: 1000; font-weight: 900;
         }
 
-        /* STATUS PULSE */
+        /* SERVER STATUS ANIMATION */
+        .server-logs {
+            font-size: 0.75rem; color: var(--cyan-neon); background: rgba(0, 240, 255, 0.05);
+            padding: 10px; border-left: 3px solid var(--cyan-neon); margin-bottom: 20px;
+            font-family: var(--font-tech);
+        }
+
         .status-tag {
             display: inline-flex; align-items: center; gap: 10px;
             background: rgba(223, 255, 0, 0.1); border: 1px solid var(--acid-yellow);
@@ -60,7 +61,6 @@
         .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 2rem 1.5rem; }
         section { margin-bottom: 7rem; }
 
-        /* MARQUEE */
         .marquee-container {
             border-top: var(--border-thick); border-bottom: var(--border-thick);
             background: var(--acid-yellow); color: var(--bg-dark); overflow: hidden;
@@ -70,7 +70,7 @@
         .marquee-content span { margin: 0 1.5rem; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* BENTO GRID - READABILITY FIX INJECTED HERE */
+        /* PROJECT CARDS */
         .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; }
         .project-card {
             background: var(--bg-dark); border: var(--border-thick); padding: 2rem;
@@ -78,105 +78,70 @@
         }
         .project-card::before { content: ''; position: absolute; top: 6px; left: 6px; right: -10px; bottom: -10px; background: var(--text-main); z-index: -1; transition: 0.3s; }
         
-        /* THE CRITICAL READABILITY FIX */
-        .project-card:hover { 
-            background: var(--acid-yellow); 
-            transform: translate(-3px, -3px); 
-            border-color: #000;
-        }
-        /* Force all children to Black on hover */
-        .project-card:hover h3, 
-        .project-card:hover p, 
-        .project-card:hover .tech-tag { 
-            color: #000 !important; 
-            border-color: #000 !important;
-        }
+        .project-card:hover { background: var(--acid-yellow); transform: translate(-3px, -3px); border-color: #000; }
+        .project-card:hover h3, .project-card:hover p, .project-card:hover .tech-tag { color: #000 !important; border-color: #000 !important; }
         .project-card:hover::before { background: var(--cyan-neon); }
 
         .tech-tag { border: 2px solid var(--text-main); padding: 0.2rem 0.5rem; font-size: 0.75rem; font-weight: 700; display: inline-block; margin: 0 0.4rem 0.4rem 0; text-transform: uppercase; transition: 0.3s; }
-        .tag-collab { border-color: var(--cyan-neon); color: var(--cyan-neon); }
+        .tag-node { border-color: #68a063; color: #68a063; } /* Node.js Green */
 
         .btn-gallery {
             margin-top: auto; background: var(--cyan-neon); color: var(--bg-dark); border: 3px solid var(--bg-dark);
             padding: 0.8rem; font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s;
         }
-        /* High contrast button on hover */
         .project-card:hover .btn-gallery { background: #000; color: var(--cyan-neon); border-color: #000; }
 
-        /* 100 DAY REPO LINKS */
-        .repo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
-        .repo-link { display: block; text-decoration: none; color: var(--bg-dark); background: var(--text-main); border: var(--border-thick); padding: 1.5rem; transition: 0.2s; }
-        .repo-link:hover { background: var(--acid-yellow); color: #000 !important; transform: scale(1.02); }
-        .repo-day { font-family: var(--font-display); font-size: 2.5rem; line-height: 1; }
-        .repo-title { font-weight: 900; text-transform: uppercase; font-size: 0.9rem; margin-top: 5px; }
-
-        /* SKILLS STACK MATRIX */
+        /* SKILLS STACK */
         .skills-matrix { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; }
         .skill-item { border: 1px solid rgba(255,255,255,0.2); padding: 15px; text-align: center; background: rgba(255,255,255,0.03); }
         .skill-item b { display: block; color: var(--cyan-neon); font-size: 1.1rem; }
 
-        /* EXPERIENCE & CREDENTIALS */
-        .exp-row { display: flex; flex-direction: column; border-top: var(--border-thick); padding: 1.5rem 0; }
-        .exp-year { font-family: var(--font-display); font-size: 1.8rem; color: var(--acid-yellow); }
-        .exp-info h4 { font-size: 1.6rem; font-family: var(--font-display); margin-bottom: 5px; }
-        @media (min-width: 768px) { .exp-row { flex-direction: row; } .exp-year { width: 220px; } }
-
-        .cred-box { border: var(--border-thick); padding: 1.5rem; margin-bottom: 1.5rem; background: rgba(255,255,255,0.05); }
-        .cert-check { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-weight: 900; font-size: 0.9rem; }
-        .cert-check::before { content: '[✓]'; color: var(--cyan-neon); }
-
-        /* MODAL SYSTEM */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 7, 7, 0.98); backdrop-filter: blur(10px); z-index: 9999; display: flex; flex-direction: column; padding: 1rem; opacity: 0; pointer-events: none; transition: 0.3s; }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid var(--acid-yellow); padding-bottom: 1rem; }
-        .modal-title { font-family: var(--font-display); font-size: 1.5rem; color: var(--acid-yellow); }
-        .btn-close { background: var(--danger-red); color: #fff; border: 2px solid #fff; padding: 0.5rem 1rem; cursor: pointer; font-family: var(--font-display); }
-        .modal-gallery-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; overflow-y: auto; padding-bottom: 2rem; }
-        .gallery-item { width: 100%; border: 2px solid var(--text-main); }
-        .gallery-item img { width: 100%; height: auto; display: block; filter: grayscale(100%); transition: 0.3s; }
-        .gallery-item:hover img { filter: grayscale(0%); }
-
-        /* FOOTER & CONTACT */
         .footer-cta { background: var(--text-main); color: var(--bg-dark); padding: 4rem 1.5rem; border: var(--border-thick); text-align: center; }
         .btn-massive { display: block; font-family: var(--font-display); font-size: clamp(1.8rem, 5vw, 3.5rem); text-transform: uppercase; text-decoration: none; color: var(--bg-dark); background: var(--cyan-neon); border: 4px solid var(--bg-dark); padding: 1rem; margin-top: 2rem; box-shadow: 8px 8px 0px var(--bg-dark); transition: 0.2s; }
         .btn-massive:hover { transform: translate(-4px, -4px); box-shadow: 12px 12px 0px var(--acid-yellow); background: #000; color: var(--cyan-neon); }
-        .social-links { margin-top: 2.5rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; font-weight: 900; }
-        .social-links a { color: var(--bg-dark); text-decoration: none; border-bottom: 3px solid var(--bg-dark); font-size: 1.1rem; }
+        
+        /* MODAL */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 7, 7, 0.98); backdrop-filter: blur(10px); z-index: 9999; display: flex; flex-direction: column; padding: 1rem; opacity: 0; pointer-events: none; transition: 0.3s; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--acid-yellow); padding-bottom: 1rem; margin-bottom: 1rem; }
+        .modal-gallery-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; overflow-y: auto; padding-bottom: 2rem; }
+        .gallery-item img { width: 100%; height: auto; border: 2px solid var(--text-main); }
     </style>
 </head>
 <body>
 
     <nav class="terminal-nav">
-        <span>SESSION: OYINLOLA.T_AUTH</span>
+        <span>TIMILEHIN_FULLSTACK_V2</span>
         <span id="clock">00:00:00</span>
     </nav>
 
     <div class="marquee-container">
         <div class="marquee-content">
-            <span>REACT.JS</span><span>PYTHON/FLASK</span><span>JAVASCRIPT</span><span>KALI LINUX</span><span>AWS</span><span>WORDPRESS</span><span>SQL</span><span>CCNA</span>
-            <span>REACT.JS</span><span>PYTHON/FLASK</span><span>JAVASCRIPT</span><span>KALI LINUX</span><span>AWS</span><span>WORDPRESS</span><span>SQL</span><span>CCNA</span>
+            <span>NODE.JS</span><span>EXPRESS</span><span>MONGODB</span><span>REACT.JS</span><span>PYTHON</span><span>WORDPRESS</span><span>AWS</span><span>LINUX</span>
+            <span>NODE.JS</span><span>EXPRESS</span><span>MONGODB</span><span>REACT.JS</span><span>PYTHON</span><span>WORDPRESS</span><span>AWS</span><span>LINUX</span>
         </div>
     </div>
 
     <main class="container">
         <section>
-            <div class="status-tag"><div class="pulse"></div> SYSTEM ONLINE // READY FOR HIRE</div>
+            <div class="status-tag"><div class="pulse"></div> SYSTEM ONLINE // BACKEND READY</div>
+            <div class="server-logs" id="log-text">> Initializing Node.js Runtime... Done.</div>
             <h1>TIMILEHIN</h1>
             <h1 class="h1-outline">OYINLOLA</h1>
             <p style="margin-top: 1.5rem; font-size: 1.3rem; font-weight: 700; max-width: 800px; color: #ccc;">
-                Full-Stack Engineer & Security Analyst. Undergrad at LASU. Specializing in secure software architectures and high-performance frontends.
+                Full-Stack Engineer. Specialist in Node.js/Express APIs, Python Automation, and Enterprise CMS. Engineering the future at LASU.
             </p>
         </section>
 
         <section>
-            <h2>Stack Matrix</h2>
+            <h2>The Stack Matrix</h2>
             <div class="skills-matrix">
+                <div class="skill-item"><b>NODE.JS</b>Runtime</div>
+                <div class="skill-item"><b>EXPRESS</b>API Engine</div>
                 <div class="skill-item"><b>REACT</b>Frontend</div>
-                <div class="skill-item"><b>FLASK</b>Backend</div>
-                <div class="skill-item"><b>JS</b>Logic</div>
-                <div class="skill-item"><b>PYTHON</b>Core</div>
+                <div class="skill-item"><b>PYTHON</b>Automation</div>
                 <div class="skill-item"><b>WORDPRESS</b>CMS</div>
-                <div class="skill-item"><b>LINUX</b>Hardening</div>
+                <div class="skill-item"><b>MONGODB</b>Database</div>
             </div>
         </section>
 
@@ -184,121 +149,42 @@
             <h2>Core Protocol // Builds</h2>
             <div class="bento-grid">
                 <article class="project-card">
-                    <h3>Aiquizedu Platform</h3>
-                    <p>AI-powered JAMB learning system. Features dynamic question generation and full dark-mode UI.</p>
+                    <h3>BiMa Maschinen</h3>
+                    <p>International industrial portal for a German machinery firm. Built with WordPress & Elementor for cross-border scalability.</p>
                     <div style="margin-bottom: 1.5rem;">
-                        <span class="tech-tag tag-collab">[ COLLAB ]</span><span class="tech-tag">React</span><span class="tech-tag">AI</span>
+                        <span class="tech-tag tag-cms">CMS</span><span class="tech-tag">WP</span><span class="tech-tag">UI/UX</span>
                     </div>
-                    <button class="btn-gallery" data-project="aiquizedu">UI Archive ↗</button>
+                    <button class="btn-gallery" data-project="bima">UI Archive ↗</button>
                 </article>
 
                 <article class="project-card">
-                    <h3>Vigoride Logistics</h3>
-                    <p>Real-time order tracking and dispatch monitoring system with live API integration.</p>
+                    <h3>Node Auth API</h3>
+                    <p>Robust backend authentication system using Node.js, Express, and JWT for secure user sessions.</p>
                     <div style="margin-bottom: 1.5rem;">
-                        <span class="tech-tag tag-collab">[ COLLAB ]</span><span class="tech-tag">JavaScript</span><span class="tech-tag">Tracking</span>
-                    </div>
-                    <button class="btn-gallery" data-project="vigoride">UI Archive ↗</button>
-                </article>
-
-                <article class="project-card">
-                    <h3>Portal Tech Co.</h3>
-                    <p>Hardware e-commerce interface designed for category-driven navigation and high-contrast hardware imagery.</p>
-                    <div style="margin-bottom: 1.5rem;">
-                        <span class="tech-tag">UI/UX</span><span class="tech-tag">Frontend</span>
-                    </div>
-                    <button class="btn-gallery" data-project="portal">UI Archive ↗</button>
-                </article>
-
-                <article class="project-card">
-                    <h3>Crudewatch Admin</h3>
-                    <p>Secure Flask backend for fuel price tracking with permission-based approval workflows and admin dashboard.</p>
-                    <div style="margin-bottom: 1.5rem;">
-                        <span class="tech-tag">Flask</span><span class="tech-tag">SQL</span><span class="tech-tag">Security</span>
+                        <span class="tech-tag tag-node">NODE.JS</span><span class="tech-tag">EXPRESS</span><span class="tech-tag">JWT</span>
                     </div>
                     <button class="btn-gallery" data-project="crudewatch">UI Archive ↗</button>
                 </article>
-            </div>
-        </section>
 
-        <section>
-            <h2>The 100-Day Vault</h2>
-            <div class="repo-grid">
-                <a href="https://github.com/Timskid11/100-days-of-python/tree/main/Day66" target="_blank" class="repo-link">
-                    <div class="repo-day">66</div><div class="repo-title">REST API</div>
-                </a>
-                <a href="https://github.com/Timskid11/100-days-of-python/tree/main/Day68" target="_blank" class="repo-link">
-                    <div class="repo-day">68</div><div class="repo-title">Secure Auth</div>
-                </a>
-                <a href="https://github.com/Timskid11/100-days-of-python/tree/main/Day48" target="_blank" class="repo-link">
-                    <div class="repo-day">48</div><div class="repo-title">Selenium</div>
-                </a>
-                <a href="https://github.com/Timskid11/100-days-of-python/tree/main/Day59" target="_blank" class="repo-link">
-                    <div class="repo-day">59</div><div class="repo-title">Blog System</div>
-                </a>
-                <a href="https://github.com/Timskid11/100-days-of-python/tree/main/Day46" target="_blank" class="repo-link">
-                    <div class="repo-day">46</div><div class="repo-title">Spotify API</div>
-                </a>
-                <a href="https://github.com/Timskid11/100-days-of-python/tree/main/Day39" target="_blank" class="repo-link">
-                    <div class="repo-day">39</div><div class="repo-title">Flight Data</div>
-                </a>
-            </div>
-        </section>
-
-        <section>
-            <h2>Trace // Work</h2>
-            <div class="exp-row">
-                <div class="exp-year">2026-PRES</div>
-                <div class="exp-info"><h4>GAOTek Inc.</h4><span>Web Development Intern</span></div>
-            </div>
-            <div class="exp-row">
-                <div class="exp-year">2025-2026</div>
-                <div class="exp-info"><h4>CodeAlpha</h4><span>Python Developer Intern</span></div>
-            </div>
-            <div class="exp-row">
-                <div class="exp-year">2025</div>
-                <div class="exp-info"><h4>Redynox</h4><span>Cybersecurity Intern</span></div>
-            </div>
-            <div class="exp-row">
-                <div class="exp-year">2023-2025</div>
-                <div class="exp-info"><h4>DAMOLTIM GLOBAL VENTURE</h4><span>CAC Registration Expert // Compliance</span></div>
-            </div>
-            <div class="exp-row">
-                <div class="exp-year">2024</div>
-                <div class="exp-info"><h4>BiMa Maschinen</h4><span>Freelance Dev (Germany)</span></div>
-            </div>
-        </section>
-
-        <section>
-            <h2>Credentials</h2>
-            <div class="bento-grid">
-                <div class="cred-box">
-                    <h3>Education</h3>
-                    <p style="color: var(--cyan-neon); font-weight: 900;">B.Sc. Computer Science</p>
-                    <p>LASU (2024-Present)</p>
-                    <p style="font-size: 0.8rem; margin-top: 5px;">Honors: Fresher of the Year (TACSFON LASU)</p>
-                </div>
-                <div class="cred-box">
-                    <h3>Security Certs</h3>
-                    <div class="cert-check">ISC2 Candidate</div>
-                    <div class="cert-check">Cisco Networking Essentials</div>
-                    <div class="cert-check">freeCodeCamp Python Mastery</div>
-                    <div class="cert-check">CCNA (In View)</div>
-                </div>
+                <article class="project-card">
+                    <h3>Aiquizedu Platform</h3>
+                    <p>AI-powered JAMB learning system. Features dynamic question generation and React frontend.</p>
+                    <div style="margin-bottom: 1.5rem;">
+                        <span class="tech-tag">REACT</span><span class="tech-tag">AI</span>
+                    </div>
+                    <button class="btn-gallery" data-project="aiquizedu">UI Archive ↗</button>
+                </article>
             </div>
         </section>
 
         <section>
             <div class="footer-cta">
-                <h2 style="color: var(--bg-dark); border-bottom: none; margin-bottom: 0;">LET'S CONNECT</h2>
-                <p style="color: var(--bg-dark); font-weight: 900; margin-top: 1rem; border-bottom: 3px solid var(--bg-dark); display: inline-block;">timilehinoyinlola3@gmail.com</p>
-                
+                <h2 style="color: var(--bg-dark); border-bottom: none; margin-bottom: 0;">LET'S BUILD</h2>
+                <p style="color: var(--bg-dark); font-weight: 900; margin-top: 1rem;">timilehinoyinlola3@gmail.com</p>
                 <a href="https://wa.me/2348104599093" target="_blank" class="btn-massive">PING WHATSAPP ↗</a>
-                
-                <div class="social-links">
-                    <a href="https://github.com/Timskid11" target="_blank">GITHUB</a>
-                    <a href="https://linkedin.com/in/timilehin-oyinlola" target="_blank">LINKEDIN</a>
-                    <a href="mailto:timilehinoyinlola3@gmail.com">EMAIL</a>
+                <div style="margin-top: 2.5rem; display: flex; justify-content: center; gap: 2rem; font-weight: 900;">
+                    <a href="https://github.com/Timskid11" target="_blank" style="color: #000; text-decoration: none;">GITHUB</a>
+                    <a href="https://linkedin.com/in/timilehin-oyinlola" target="_blank" style="color: #000; text-decoration: none;">LINKEDIN</a>
                 </div>
             </div>
         </section>
@@ -314,12 +200,12 @@
 
     <script>
         const projectData = {
-            'aiquizedu': { title: 'AIQUIZEDU // PLATFORM UI', images: ['<div class="gallery-item"><img src="images/aiquizedu-ui.png"></div>'] },
-            'vigoride': { title: 'VIGORIDE // TRACKING UI', images: ['<div class="gallery-item"><img src="images/vigoride-ui.png"></div>'] },
-            'portal': { title: 'PORTAL TECH // HARDWARE UI', images: ['<div class="gallery-item"><img src="images/portal-tech.png"></div>'] },
-            'crudewatch': { title: 'CRUDEWATCH // ADMIN FLOW', images: ['<div class="gallery-item"><img src="images/crudewatch-ui.png"></div>', '<div class="gallery-item"><img src="images/flask-auth.png"></div>'] }
+            'bima': { title: 'BIMA MASCHINEN UI', images: ['<div class="gallery-item"><img src="images/bima-ui.png"></div>'] },
+            'aiquizedu': { title: 'AIQUIZEDU UI', images: ['<div class="gallery-item"><img src="images/aiquizedu-ui.png"></div>'] },
+            'crudewatch': { title: 'NODE AUTH FLOW', images: ['<div class="gallery-item"><img src="images/crudewatch-ui.png"></div>', '<div class="gallery-item"><img src="images/flask-auth.png"></div>'] }
         };
 
+        // UI Interactions
         const modal = document.getElementById('gallery-modal');
         const modalTitle = document.getElementById('modal-title');
         const modalGrid = document.getElementById('modal-grid');
@@ -341,10 +227,22 @@
         btnClose.addEventListener('click', closeM);
         modal.addEventListener('click', (e) => { if(e.target === modal) closeM(); });
 
+        // Clock & Logs
         setInterval(() => {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toTimeString().split(' ')[0];
+            document.getElementById('clock').innerText = new Date().toTimeString().split(' ')[0];
         }, 1000);
+
+        const logs = [
+            "> Initializing Node.js Runtime...",
+            "> Database Handshake: MongoDB Connected.",
+            "> Listening on Port: 3000",
+            "> System Status: All Systems Operational."
+        ];
+        let i = 0;
+        setInterval(() => {
+            document.getElementById('log-text').innerText = logs[i % logs.length];
+            i++;
+        }, 4000);
     </script>
 </body>
 </html>
