@@ -19,11 +19,11 @@
             --font-tech: 'Chivo Mono', monospace;
         }
 
-        /* RESET & PREVENT OVERFLOW */
+        /* RESPONSIVE RESET */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { 
             max-width: 100vw; 
-            overflow-x: hidden; /* This stops the left-right scroll */
+            overflow-x: hidden; 
             background-color: var(--bg-dark);
             color: var(--text-main);
             font-family: var(--font-tech);
@@ -31,274 +31,212 @@
         }
 
         body {
-            background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.02) 2px, rgba(255, 255, 255, 0.02) 4px);
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.01) 2px, rgba(255, 255, 255, 0.01) 4px);
         }
 
-        /* TYPOGRAPHY - USING CLAMP FOR AUTOMATIC SCALING */
-        h1, h2, h3 { font-family: var(--font-display); text-transform: uppercase; line-height: 1; }
+        /* STATUS PULSE */
+        .status-tag {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(223, 255, 0, 0.1); border: 1px solid var(--acid-yellow);
+            padding: 5px 12px; border-radius: 50px; font-size: 0.8rem; font-weight: 900; color: var(--acid-yellow);
+            margin-bottom: 20px;
+        }
+        .pulse { width: 8px; height: 8px; background: var(--acid-yellow); border-radius: 50%; box-shadow: 0 0 10px var(--acid-yellow); animation: pulse-anim 2s infinite; }
+        @keyframes pulse-anim { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+
+        /* TYPOGRAPHY */
+        h1 { font-size: clamp(3rem, 12vw, 9rem); letter-spacing: -1px; line-height: 0.9; }
+        .h1-outline { -webkit-text-stroke: 1.5px var(--acid-yellow); color: transparent; }
+        h2 { font-size: clamp(2rem, 6vw, 4rem); color: var(--acid-yellow); border-bottom: var(--border-thick); display: inline-block; margin-bottom: 2rem; }
         
-        h1 { 
-            font-size: clamp(3.5rem, 12vw, 10rem); 
-            letter-spacing: -1px; 
-            margin-bottom: 0; 
-        }
+        .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 2rem 1.5rem; }
+        section { margin-bottom: 7rem; }
 
-        .h1-outline { 
-            -webkit-text-stroke: 1.5px var(--acid-yellow); 
-            color: transparent; 
-        }
-
-        h2 { 
-            font-size: clamp(2rem, 6vw, 5rem); 
-            margin-bottom: 2rem; 
-            color: var(--acid-yellow); 
-            border-bottom: var(--border-thick); 
-            display: inline-block; 
-            padding-right: 1rem; 
-        }
-        
-        .container { 
-            width: 100%;
-            max-width: 1400px; 
-            margin: 0 auto; 
-            padding: 2rem 1.5rem; /* Better padding for mobile */
-        }
-
-        section { margin-bottom: 6rem; }
-
-        /* MARQUEE - RE-OPTIMIZED FOR PERFORMANCE */
+        /* MARQUEE */
         .marquee-container {
-            border-top: var(--border-thick); 
-            border-bottom: var(--border-thick);
-            background: var(--acid-yellow); 
-            color: var(--bg-dark); 
-            overflow: hidden;
-            padding: 0.8rem 0; 
-            display: flex; 
-            white-space: nowrap; 
-            margin-bottom: 4rem;
+            border-top: var(--border-thick); border-bottom: var(--border-thick);
+            background: var(--acid-yellow); color: var(--bg-dark); overflow: hidden;
+            padding: 0.8rem 0; display: flex; white-space: nowrap; margin-bottom: 4rem;
         }
-        .marquee-content {
-            display: flex; 
-            animation: scroll 20s linear infinite; 
-            font-family: var(--font-display);
-            font-size: 1.5rem; 
-            font-weight: 700; 
-            text-transform: uppercase;
-        }
+        .marquee-content { display: flex; animation: scroll 20s linear infinite; font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; text-transform: uppercase; }
         .marquee-content span { margin: 0 1.5rem; }
-
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        .hero-meta { 
-            display: inline-block; 
-            background: var(--cyan-neon); 
-            color: var(--bg-dark); 
-            font-weight: 900; 
-            padding: 0.4rem 0.8rem; 
-            font-size: 1rem; 
-            margin-bottom: 1rem; 
-            transform: rotate(-2deg); 
-        }
-
-        /* RESPONSIVE BENTO GRID */
-        .bento-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 2rem; 
-        }
-
+        /* BENTO GRID */
+        .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
         .project-card {
-            background: var(--bg-dark); 
-            border: var(--border-thick); 
-            padding: 1.5rem;
-            position: relative; 
-            display: flex; 
-            flex-direction: column; 
-            transition: transform 0.2s ease;
+            background: var(--bg-dark); border: var(--border-thick); padding: 2rem;
+            position: relative; display: flex; flex-direction: column; transition: 0.2s;
         }
+        .project-card::before { content: ''; position: absolute; top: 6px; left: 6px; right: -10px; bottom: -10px; background: var(--text-main); z-index: -1; }
+        .project-card:hover { transform: translate(-3px, -3px); }
+        .project-card:hover::before { background: var(--acid-yellow); }
         
-        /* Smaller shadows for mobile so they don't hit the edge */
-        .project-card::before {
-            content: ''; position: absolute; top: 4px; left: 4px; right: -8px; bottom: -8px;
-            background: var(--text-main); z-index: -1;
-        }
-
-        .project-card:hover { transform: translate(-2px, -2px); }
-        .project-card h3 { font-size: 1.8rem; margin-bottom: 1rem; }
-        .project-card p { font-size: 0.95rem; margin-bottom: 1.5rem; color: #ccc; }
-        
-        .tech-tag { 
-            border: 2px solid var(--text-main); 
-            padding: 0.2rem 0.5rem; 
-            font-size: 0.75rem; 
-            font-weight: 700; 
-            display: inline-block; 
-            margin: 0 0.4rem 0.4rem 0; 
-            text-transform: uppercase; 
-        }
+        .tech-tag { border: 2px solid var(--text-main); padding: 0.2rem 0.5rem; font-size: 0.75rem; font-weight: 700; display: inline-block; margin: 0 0.4rem 0.4rem 0; text-transform: uppercase; }
+        .tag-collab { border-color: var(--cyan-neon); color: var(--cyan-neon); }
 
         .btn-gallery {
-            margin-top: auto; 
-            background: var(--cyan-neon); 
-            color: var(--bg-dark); 
-            border: 3px solid var(--bg-dark);
-            padding: 0.8rem; 
-            font-family: var(--font-display); 
-            font-size: 1.1rem; 
-            font-weight: 700; 
-            cursor: pointer;
-            text-transform: uppercase;
+            margin-top: auto; background: var(--cyan-neon); color: var(--bg-dark); border: 3px solid var(--bg-dark);
+            padding: 0.8rem; font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; cursor: pointer; text-transform: uppercase;
         }
 
-        /* RESPONSIVE EXPERIENCE ROWS */
-        .exp-row { 
-            display: flex; 
-            flex-direction: column; /* Stack by default for mobile */
-            border-top: var(--border-thick); 
-            padding: 1.5rem 0; 
-        }
+        /* 100 DAY REPO LINKS */
+        .repo-link { display: block; text-decoration: none; color: var(--bg-dark); background: var(--text-main); border: var(--border-thick); padding: 1.5rem; margin-bottom: 1rem; transition: 0.2s; }
+        .repo-link:hover { background: var(--acid-yellow); transform: scale(1.02); }
+        .repo-day { font-family: var(--font-display); font-size: 2.5rem; }
 
-        .exp-year { 
-            font-family: var(--font-display); 
-            font-size: 1.8rem; 
-            color: var(--acid-yellow); 
-            margin-bottom: 0.5rem;
-        }
+        /* SKILLS STACK MATRIX */
+        .skills-matrix { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+        .skill-item { border: 1px solid rgba(255,255,255,0.2); padding: 15px; text-align: center; transition: 0.3s; }
+        .skill-item:hover { border-color: var(--cyan-neon); background: rgba(0, 240, 255, 0.05); }
+        .skill-item b { display: block; color: var(--cyan-neon); font-size: 1.2rem; }
 
-        .exp-info h4 { font-size: 1.5rem; font-family: var(--font-display); }
+        /* EXPERIENCE & CREDENTIALS */
+        .exp-row { display: flex; flex-direction: column; border-top: var(--border-thick); padding: 1.5rem 0; }
+        .exp-year { font-family: var(--font-display); font-size: 1.8rem; color: var(--acid-yellow); }
+        @media (min-width: 768px) { .exp-row { flex-direction: row; } .exp-year { width: 200px; } }
 
-        /* TABLET/DESKTOP EXPERIENCE ROWS */
-        @media (min-width: 768px) {
-            .exp-row { flex-direction: row; }
-            .exp-year { width: 200px; margin-bottom: 0; }
-        }
+        .cred-box { border: var(--border-thick); padding: 1.5rem; margin-bottom: 1.5rem; }
+        .cert-check { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-weight: 900; }
+        .cert-check::before { content: '[✓]'; color: var(--cyan-neon); }
 
-        /* MODAL OVERLAY */
-        .modal-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(7, 7, 7, 0.98); backdrop-filter: blur(8px); 
-            z-index: 9999; display: flex; flex-direction: column; 
-            padding: 1rem; opacity: 0; pointer-events: none; transition: 0.3s; 
-        }
+        /* MODAL */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 7, 7, 0.98); backdrop-filter: blur(10px); z-index: 9999; display: flex; flex-direction: column; padding: 1rem; opacity: 0; pointer-events: none; transition: 0.3s; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
-        .modal-title { font-family: var(--font-display); font-size: 1.5rem; color: var(--acid-yellow); }
-        .btn-close { background: var(--danger-red); color: #fff; border: 2px solid #fff; padding: 0.4rem 1rem; cursor: pointer; }
-
-        .modal-gallery-grid { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 1.5rem; 
-            overflow-y: auto; 
-            padding-bottom: 2rem;
-        }
-        .gallery-item { width: 100%; border: 3px solid var(--text-main); }
-        .gallery-item img { width: 100%; height: auto; display: block; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid var(--acid-yellow); padding-bottom: 1rem; }
+        .modal-gallery-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; overflow-y: auto; }
+        .gallery-item img { width: 100%; height: auto; border: 2px solid var(--text-main); }
 
         /* FOOTER */
-        .footer-cta { 
-            background: var(--text-main); 
-            color: var(--bg-dark); 
-            padding: 3rem 1rem; 
-            border: var(--border-thick); 
-            text-align: center; 
-        }
-        .btn-massive { 
-            display: block; 
-            font-family: var(--font-display); 
-            font-size: 2rem; 
-            text-transform: uppercase; 
-            text-decoration: none; 
-            color: var(--bg-dark); 
-            background: var(--cyan-neon); 
-            border: 4px solid var(--bg-dark); 
-            padding: 1rem; 
-            margin-top: 1.5rem; 
-            box-shadow: 4px 4px 0px var(--bg-dark);
-        }
-
-        @media (min-width: 768px) {
-            .btn-massive { display: inline-block; padding: 1rem 3rem; font-size: 3rem; }
-            .container { padding: 0 2rem 6rem 2rem; }
-        }
+        .footer-cta { background: var(--text-main); color: var(--bg-dark); padding: 4rem 1.5rem; border: var(--border-thick); text-align: center; }
+        .btn-massive { display: block; font-family: var(--font-display); font-size: clamp(1.5rem, 5vw, 3rem); text-transform: uppercase; text-decoration: none; color: var(--bg-dark); background: var(--cyan-neon); border: 4px solid var(--bg-dark); padding: 1rem; margin-top: 2rem; box-shadow: 6px 6px 0px var(--bg-dark); }
+        .social-links { margin-top: 2.5rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; font-weight: 900; }
+        .social-links a { color: var(--bg-dark); text-decoration: none; border-bottom: 2px solid var(--bg-dark); }
     </style>
 </head>
 <body>
 
     <div class="marquee-container">
         <div class="marquee-content">
-            <span>REACT.JS</span><span>PYTHON/FLASK</span><span>JAVASCRIPT</span><span>KALI LINUX</span><span>AWS</span><span>WORDPRESS</span>
-            <span>REACT.JS</span><span>PYTHON/FLASK</span><span>JAVASCRIPT</span><span>KALI LINUX</span><span>AWS</span><span>WORDPRESS</span>
+            <span>REACT.JS</span><span>PYTHON/FLASK</span><span>JAVASCRIPT</span><span>KALI LINUX</span><span>AWS</span><span>WORDPRESS</span><span>SQL</span><span>CCNA</span>
+            <span>REACT.JS</span><span>PYTHON/FLASK</span><span>JAVASCRIPT</span><span>KALI LINUX</span><span>AWS</span><span>WORDPRESS</span><span>SQL</span><span>CCNA</span>
         </div>
     </div>
 
     <main class="container">
         <section>
-            <span class="hero-meta">System.Init() // Full-Stack Dev</span>
+            <div class="status-tag"><div class="pulse"></div> SYSTEM ONLINE // READY FOR HIRE</div>
             <h1>TIMILEHIN</h1>
             <h1 class="h1-outline">OYINLOLA</h1>
-            <p style="margin-top: 1.5rem; font-weight: 700; color: #ccc;">
-                Full-Stack Developer. Security Analyst. Engineering secure, high-performance applications from the ground up.
+            <p style="margin-top: 1.5rem; font-size: 1.2rem; font-weight: 700; max-width: 800px;">
+                Full-Stack Engineer & Security Analyst. Building resilient systems at LASU. Specializing in Python/Flask backends and modern React frontends.
             </p>
         </section>
 
         <section>
-            <h2>Builds // Lab</h2>
+            <h2>Technical Arsenal</h2>
+            <div class="skills-matrix">
+                <div class="skill-item"><b>REACT</b>Frontend Framework</div>
+                <div class="skill-item"><b>FLASK</b>Backend Engine</div>
+                <div class="skill-item"><b>JS / ES6</b>Dynamic Logic</div>
+                <div class="skill-item"><b>PYTHON</b>Core Scripting</div>
+                <div class="skill-item"><b>WORDPRESS</b>CMS Architecture</div>
+                <div class="skill-item"><b>LINUX</b>System Hardening</div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Core Protocol // Builds</h2>
             <div class="bento-grid">
                 <article class="project-card">
                     <h3>Aiquizedu Platform</h3>
-                    <p>AI-powered learning system for JAMB prep with mobile-responsive UI.</p>
-                    <div><span class="tech-tag">AI Integration</span><span class="tech-tag">Full-Stack</span></div>
+                    <p>AI-powered JAMB learning system. Dynamic generation from question banks.</p>
+                    <div style="margin-bottom: 1.5rem;">
+                        <span class="tech-tag tag-collab">[ COLLAB ]</span><span class="tech-tag">React</span><span class="tech-tag">AI</span>
+                    </div>
                     <button class="btn-gallery" data-project="aiquizedu">UI Archive ↗</button>
                 </article>
 
                 <article class="project-card">
-                    <h3>Vigoride Logistics</h3>
-                    <p>Live order-tracking system built for real-time dispatch monitoring.</p>
-                    <div><span class="tech-tag">React</span><span class="tech-tag">API</span></div>
+                    <h3>Vigoride Tracking</h3>
+                    <p>Real-time logistics monitoring system with live dispatch status updates.</p>
+                    <div style="margin-bottom: 1.5rem;">
+                        <span class="tech-tag tag-collab">[ COLLAB ]</span><span class="tech-tag">JS</span><span class="tech-tag">API</span>
+                    </div>
                     <button class="btn-gallery" data-project="vigoride">UI Archive ↗</button>
                 </article>
 
                 <article class="project-card">
                     <h3>Portal Tech Co.</h3>
-                    <p>Hardware e-commerce interface with category-driven navigation.</p>
-                    <div><span class="tech-tag">UI Design</span><span class="tech-tag">Frontend</span></div>
+                    <p>High-contrast hardware e-commerce UI designed for performance and aesthetic.</p>
+                    <div style="margin-bottom: 1.5rem;">
+                        <span class="tech-tag">UI/UX</span><span class="tech-tag">Frontend</span>
+                    </div>
                     <button class="btn-gallery" data-project="portal">UI Archive ↗</button>
                 </article>
 
                 <article class="project-card">
                     <h3>Crudewatch Admin</h3>
-                    <p>Flask application with secure admin dashboard for price tracking.</p>
-                    <div><span class="tech-tag">Flask</span><span class="tech-tag">Security</span></div>
+                    <p>Secure Flask backend for regional fuel price tracking and approval.</p>
+                    <div style="margin-bottom: 1.5rem;">
+                        <span class="tech-tag">Flask</span><span class="tech-tag">SQL</span><span class="tech-tag">Auth</span>
+                    </div>
                     <button class="btn-gallery" data-project="crudewatch">UI Archive ↗</button>
                 </article>
             </div>
         </section>
 
         <section>
-            <h2>Trace // Work</h2>
+            <h2>The 100-Day Vault</h2>
+            <div class="bento-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                <a href="https://github.com/Timskid11/100-days-of-python/tree/main/Day66" target="_blank" class="repo-link">
+                    <div class="repo-day">DAY 66</div><div class="repo-title">REST API Architecture</div>
+                </a>
+                <a href="https://github.com/Timskid11/100-days-of-python/tree/main/Day68" target="_blank" class="repo-link">
+                    <div class="repo-day">DAY 68</div><div class="repo-title">Secure Authentication</div>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <h2>Execution Trace // Work</h2>
             <div class="exp-row">
                 <div class="exp-year">2026-PRES</div>
-                <div class="exp-info"><h4>Web Dev Intern</h4><span>GAOTek Inc.</span></div>
-            </div>
-            <div class="exp-row">
-                <div class="exp-year">2025-2026</div>
-                <div class="exp-info"><h4>Python Intern</h4><span>CodeAlpha</span></div>
+                <div class="exp-info"><h4>GAOTek Inc.</h4><span>Web Development Intern</span></div>
             </div>
             <div class="exp-row">
                 <div class="exp-year">2024</div>
-                <div class="exp-info"><h4>Freelance Dev</h4><span>BiMa Maschinen</span></div>
+                <div class="exp-info"><h4>BiMa Maschinen</h4><span>Freelance WordPress Dev (Germany)</span></div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Credentials</h2>
+            <div class="bento-grid">
+                <div class="cred-box">
+                    <h3>Education</h3>
+                    <p>B.Sc. Computer Science<br>LASU (2024-Present)</p>
+                </div>
+                <div class="cred-box">
+                    <h3>Certifications</h3>
+                    <div class="cert-check">ISC2 Candidate</div>
+                    <div class="cert-check">Cisco Networking Essentials</div>
+                    <div class="cert-check">CCNA (In View)</div>
+                </div>
             </div>
         </section>
 
         <section>
             <div class="footer-cta">
-                <h2 style="color: var(--bg-dark); border-bottom: none; margin-bottom: 0;">TALK TO ME</h2>
+                <h2 style="color: var(--bg-dark); border-bottom: none; margin-bottom: 0;">LET'S CONNECT</h2>
+                <p style="color: var(--bg-dark); font-weight: 900; margin-top: 1rem;">timilehinoyinlola3@gmail.com</p>
+                
                 <a href="https://wa.me/2348104599093" target="_blank" class="btn-massive">WHATSAPP ↗</a>
-                <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 1.5rem;">
-                    <a href="https://github.com/Timskid11" target="_blank" style="color: var(--bg-dark); font-weight: 900; text-decoration: none;">GITHUB</a>
-                    <a href="https://www.linkedin.com/in/timilehin-oyinlola-228296317?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" style="color: var(--bg-dark); font-weight: 900; text-decoration: none;">LINKEDIN</a>
+                
+                <div class="social-links">
+                    <a href="https://github.com/Timskid11" target="_blank">GITHUB</a>
+                    <a href="https://linkedin.com/in/timilehin-oyinlola" target="_blank">LINKEDIN</a>
+                    <a href="mailto:timilehinoyinlola3@gmail.com">EMAIL</a>
                 </div>
             </div>
         </section>
@@ -306,7 +244,7 @@
 
     <div class="modal-overlay" id="gallery-modal">
         <div class="modal-header">
-            <h2 class="modal-title" id="modal-title">Project</h2>
+            <h2 class="modal-title" id="modal-title">PROJECT</h2>
             <button class="btn-close" id="btn-close">CLOSE [X]</button>
         </div>
         <div class="modal-gallery-grid" id="modal-grid"></div>
@@ -316,8 +254,8 @@
         const projectData = {
             'aiquizedu': { title: 'AIQUIZEDU UI', images: ['<div class="gallery-item"><img src="images/aiquizedu-ui.png"></div>'] },
             'vigoride': { title: 'VIGORIDE UI', images: ['<div class="gallery-item"><img src="images/vigoride-ui.png"></div>'] },
-            'portal': { title: 'PORTAL TECH UI', images: ['<div class="gallery-item"><img src="images/portal-tech.jpg"></div>'] },
-            'crudewatch': { title: 'CRUDEWATCH ADMIN', images: ['<div class="gallery-item"><img src="images/crudewatch-ui.jpg"></div>', '<div class="gallery-item"><img src="images/flask-auth.jpg"></div>'] }
+            'portal': { title: 'PORTAL TECH UI', images: ['<div class="gallery-item"><img src="images/portal-tech.png"></div>'] },
+            'crudewatch': { title: 'CRUDEWATCH ADMIN', images: ['<div class="gallery-item"><img src="images/crudewatch-ui.png"></div>', '<div class="gallery-item"><img src="images/flask-auth.png"></div>'] }
         };
 
         const modal = document.getElementById('gallery-modal');
