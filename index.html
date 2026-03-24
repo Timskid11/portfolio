@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timilehin Oyinlola | Full-Stack & Security</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ACID-NOIR DESIGN TOKENS */
+        :root {
+            --bg-dark: #070707;
+            --text-main: #F4F4F0;
+            --acid-yellow: #DFFF00;
+            --cyan-neon: #00F0FF;
+            --danger-red: #FF0055;
+            --border-thick: 4px solid var(--text-main);
+            
+            --font-display: 'Oswald', sans-serif;
+            --font-tech: 'Chivo Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-tech);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: repeating-linear-gradient(
+                0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.02) 2px, rgba(255, 255, 255, 0.02) 4px
+            );
+        }
+
+        h1, h2, h3 { font-family: var(--font-display); text-transform: uppercase; line-height: 1; }
+        h1 { font-size: clamp(4rem, 12vw, 10rem); letter-spacing: -2px; margin-bottom: 0; color: var(--text-main); }
+        .h1-outline { -webkit-text-stroke: 2px var(--acid-yellow); color: transparent; }
+        h2 { font-size: clamp(2.5rem, 6vw, 5rem); margin-bottom: 2rem; color: var(--acid-yellow); border-bottom: var(--border-thick); display: inline-block; padding-right: 2rem; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem 6rem 2rem; }
+        section { margin-bottom: 8rem; }
+
+        /* MARQUEE */
+        .marquee-container {
+            border-top: var(--border-thick); border-bottom: var(--border-thick);
+            background: var(--acid-yellow); color: var(--bg-dark); overflow: hidden;
+            padding: 1rem 0; display: flex; white-space: nowrap; margin-bottom: 4rem;
+        }
+        .marquee-content {
+            display: flex; animation: scroll 15s linear infinite; font-family: var(--font-display);
+            font-size: 2rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+        }
+        .marquee-content span { margin: 0 2rem; }
+        .marquee-content span::after { content: " // "; margin-left: 2rem; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .hero-meta { display: inline-block; background: var(--cyan-neon); color: var(--bg-dark); font-weight: 900; padding: 0.5rem 1rem; font-size: 1.2rem; margin-bottom: 1rem; transform: rotate(-2deg); }
+
+        /* BENTO GRID */
+        .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
+        
+        .project-card {
+            background: var(--bg-dark); border: var(--border-thick); padding: 2rem;
+            position: relative; display: flex; flex-direction: column; transition: transform 0.2s ease;
+        }
+        .project-card::before {
+            content: ''; position: absolute; top: 8px; left: 8px; right: -12px; bottom: -12px;
+            background: var(--text-main); z-index: -1; transition: background 0.2s ease;
+        }
+        .project-card:hover { transform: translate(-4px, -4px); }
+        .project-card:hover::before { background: var(--acid-yellow); }
+        
+        .project-card h3 { font-size: 2rem; margin-bottom: 1rem; }
+        .project-card p { font-size: 0.95rem; margin-bottom: 1.5rem; color: #ccc; }
+        
+        .tech-tag {
+            border: 2px solid var(--text-main); padding: 0.2rem 0.5rem; font-size: 0.8rem; font-weight: 700;
+            display: inline-block; margin: 0 0.5rem 0.5rem 0; text-transform: uppercase;
+        }
+        .tag-collab { border-color: var(--cyan-neon); color: var(--cyan-neon); }
+
+        .btn-gallery {
+            margin-top: auto; background: var(--cyan-neon); color: var(--bg-dark); border: 3px solid var(--bg-dark);
+            padding: 1rem; font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; cursor: pointer;
+            text-transform: uppercase; transition: all 0.2s; text-align: center;
+        }
+        .btn-gallery:hover { background: var(--acid-yellow); box-shadow: 4px 4px 0px var(--text-main); transform: translate(-2px, -2px); }
+
+        /* THE 100 DAY REPO GRID */
+        .repo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .repo-link { display: block; text-decoration: none; color: var(--bg-dark); background: var(--text-main); border: var(--border-thick); padding: 2rem; transition: all 0.2s ease; position: relative; overflow: hidden; }
+        .repo-link:hover { background: var(--acid-yellow); color: var(--bg-dark); transform: scale(1.02); }
+        .repo-link::after { content: "CLICK TO VIEW REPO ↗"; position: absolute; top: 1rem; right: 1rem; font-size: 0.8rem; font-weight: 900; opacity: 0; transition: opacity 0.2s; }
+        .repo-link:hover::after { opacity: 1; }
+        .repo-day { font-family: var(--font-display); font-size: 3rem; line-height: 1; margin-bottom: 0.5rem; }
+        .repo-title { font-weight: 900; font-size: 1.2rem; text-transform: uppercase; }
+
+        /* EXPERIENCE & CREDENTIALS */
+        .exp-row { display: flex; flex-wrap: wrap; border-top: var(--border-thick); padding: 2rem 0; transition: all 0.2s ease; }
+        .exp-row:last-child { border-bottom: var(--border-thick); }
+        .exp-row:hover { background: rgba(0, 240, 255, 0.1); padding-left: 1rem; }
+        .exp-year { font-family: var(--font-display); font-size: 2rem; color: var(--acid-yellow); width: 250px; }
+        .exp-info h4 { font-size: 1.8rem; font-family: var(--font-display); margin-bottom: 0.5rem; }
+        .exp-info span { background: var(--danger-red); color: #fff; padding: 0.2rem 0.5rem; font-weight: 900; text-transform: uppercase; font-size: 0.8rem; }
+
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; }
+        .cred-box { border: var(--border-thick); padding: 2rem; position: relative; }
+        .cred-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(223, 255, 0, 0.05) 10px, rgba(223, 255, 0, 0.05) 20px); z-index: -1; }
+        .cred-list { list-style: none; }
+        .cred-list li { padding: 1rem 0; border-bottom: 1px solid rgba(244, 244, 240, 0.2); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;}
+        .cred-list li:last-child { border-bottom: none; }
+        .cred-title { font-size: 1.2rem; font-weight: 900; color: var(--acid-yellow); text-transform: uppercase;}
+        .cred-issuer { font-size: 0.9rem; font-family: var(--font-display); letter-spacing: 1px; }
+
+        /* MODAL */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 7, 7, 0.95); backdrop-filter: blur(5px); z-index: 9999; display: flex; flex-direction: column; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: var(--border-thick); padding-bottom: 1rem; margin-bottom: 2rem; }
+        .modal-title { font-family: var(--font-display); font-size: 3rem; color: var(--acid-yellow); text-transform: uppercase; }
+        .btn-close { background: var(--danger-red); color: #fff; border: 3px solid #fff; padding: 0.5rem 1.5rem; font-family: var(--font-display); font-size: 1.5rem; cursor: pointer; }
+        .btn-close:hover { background: #fff; color: var(--danger-red); }
+        .modal-gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; overflow-y: auto; padding-right: 1rem; }
+        .gallery-item { width: 100%; aspect-ratio: 16/9; background: #222; border: var(--border-thick); display: flex; align-items: center; justify-content: center; color: var(--text-main); font-size: 1.2rem; font-weight: 900; transition: transform 0.2s; overflow: hidden; }
+        .gallery-item:hover { transform: scale(1.02); border-color: var(--cyan-neon); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) contrast(120%); transition: all 0.3s; }
+        .gallery-item:hover img { filter: grayscale(0%) contrast(100%); }
+
+        /* FOOTER */
+        .footer-cta { background: var(--text-main); color: var(--bg-dark); padding: 4rem; border: var(--border-thick); text-align: center; }
+        .btn-massive { display: inline-block; font-family: var(--font-display); font-size: 3rem; text-transform: uppercase; text-decoration: none; color: var(--bg-dark); background: var(--cyan-neon); border: 4px solid var(--bg-dark); padding: 1rem 3rem; margin-top: 2rem; transition: all 0.2s ease; box-shadow: 8px 8px 0px var(--bg-dark); }
+        .btn-massive:hover { transform: translate(-4px, -4px); box-shadow: 12px 12px 0px var(--acid-yellow); background: var(--text-main); }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 4rem; } .modal-header { flex-direction: column; align-items: flex-start; gap: 1rem; } .modal-title { font-size: 2rem; } .exp-year { width: 100%; margin-bottom: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <span>REACT.JS</span><span>JAVASCRIPT</span><span>PYTHON/FLASK</span><span>WORDPRESS/PHP</span><span>KALI LINUX</span><span>AWS</span>
+            <span>REACT.JS</span><span>JAVASCRIPT</span><span>PYTHON/FLASK</span><span>WORDPRESS/PHP</span><span>KALI LINUX</span><span>AWS</span>
+        </div>
+    </div>
+
+    <main class="container">
+        
+        <section>
+            <span class="hero-meta">System.Init() // Full-Stack Dev</span>
+            <h1>TIMILEHIN</h1>
+            <h1 class="h1-outline">OYINLOLA</h1>
+            <p style="margin-top: 2rem; font-size: 1.2rem; font-weight: 700; max-width: 800px;">
+                Full-Stack Developer. Security Analyst. Engineering real-world applications across the stack—from React frontends and AI integrations to secure Python/Flask backends and infrastructure hardening.
+            </p>
+        </section>
+
+        <section>
+            <h2>Core Protocol // Builds</h2>
+            <div class="bento-grid">
+                
+                <article class="project-card">
+                    <h3>Aiquizedu Platform</h3>
+                    <p>An AI-powered web and mobile learning platform designed for JAMB examination prep, dynamically generating topics from question databases.</p>
+                    <div style="margin-bottom: 2rem;">
+                        <span class="tech-tag tag-collab">[ CO-OP DEPLOYMENT ]</span>
+                        <span class="tech-tag">AI Integration</span><span class="tech-tag">Full-Stack</span>
+                    </div>
+                    <button class="btn-gallery" data-project="aiquizedu">View UI Archive ↗</button>
+                </article>
+
+                <article class="project-card">
+                    <h3>Vigoride Logistics</h3>
+                    <p>Engineered a live order-tracking and logistics management system allowing end-users to monitor dispatch statuses in real-time.</p>
+                    <div style="margin-bottom: 2rem;">
+                        <span class="tech-tag tag-collab">[ CO-OP DEPLOYMENT ]</span>
+                        <span class="tech-tag">Tracking API</span><span class="tech-tag">React</span>
+                    </div>
+                    <button class="btn-gallery" data-project="vigoride">View UI Archive ↗</button>
+                </article>
+
+                <article class="project-card">
+                    <h3>Crudewatch</h3>
+                    <p>Location-based web application tracking regional petrol prices via dynamic data filtering and robust CRUD operations.</p>
+                    <div style="margin-bottom: 2rem;">
+                        <span class="tech-tag">Flask</span><span class="tech-tag">SQLAlchemy</span><span class="tech-tag">Bootstrap</span>
+                    </div>
+                    <button class="btn-gallery" data-project="crudewatch">View UI Archive ↗</button>
+                </article>
+
+                <article class="project-card">
+                    <h3>Fellowship Portal</h3>
+                    <p>Engineered a dedicated web application to securely track and manage church attendance and community data.</p>
+                    <div style="margin-bottom: 2rem;">
+                        <span class="tech-tag">Full-Stack</span><span class="tech-tag">JS</span><span class="tech-tag">Database</span>
+                    </div>
+                    <button class="btn-gallery" data-project="fellowship">View UI Archive ↗</button>
+                </article>
+
+            </div>
+        </section>
+        
+        <section>
+            <h2>The 100-Day Archive</h2>
+            <p style="margin-bottom: 3rem; max-width: 800px;">While frontends require visual proof, backend logic requires raw code. Below is an expanded cross-section of the architectures, security protocols, and APIs I built during Angela Yu's 100 Days of Code.</p>
+            
+            <div class="repo-grid">
+                <a href="https://github.com/Timskid11/100-days-of-python/tree/main/Day66" target="_blank" class="repo-link">
+                    <div class="repo-day">DAY 66</div>
+                    <div class="repo-title">Custom RESTful API</div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem;">Engineered a fully functional REST API from scratch using Flask & Postman.</p>
+                </a>
+                <a href="https://github.com/Timskid11/100-days-of-python/tree/main/Day68" target="_blank" class="repo-link">
+                    <div class="repo-day">DAY 68</div>
+                    <div class="repo-title">Flask Authentication</div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem;">Built secure login/register systems with Werkzeug password hashing.</p>
+                </a>
+                <a href="https://github.com/Timskid11/100-days-of-python/tree/main/Day48" target="_blank" class="repo-link">
+                    <div class="repo-day">DAY 48 & 49</div>
+                    <div class="repo-title">Selenium Bots</div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem;">Built automated headless browser bots for data extraction and workflows.</p>
+                </a>
+                <a href="https://github.com/Timskid11/100-days-of-python/tree/main/Day59" target="_blank" class="repo-link">
+                    <div class="repo-day">DAY 59 & 60</div>
+                    <div class="repo-title">Blog Capstone</div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem;">Developed a complete, styled, full-stack blog using Jinja templates.</p>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <h2>Execution Trace // Work</h2>
+            <div>
+                <div class="exp-row">
+                    <div class="exp-year">2026 - PRES</div>
+                    <div class="exp-info">
+                        <h4>Web Development Intern</h4>
+                        <span>GAOTek Inc.</span>
+                        <p style="margin-top: 0.5rem;">Supporting web infrastructure optimization and utilizing Python/JS to enhance system reliability.</p>
+                    </div>
+                </div>
+                <div class="exp-row">
+                    <div class="exp-year">2025 - 2026</div>
+                    <div class="exp-info">
+                        <h4>Python Developer Intern</h4>
+                        <span>CodeAlpha</span>
+                        <p style="margin-top: 0.5rem;">Developed automation tools and applied strict version control across functional backend projects.</p>
+                    </div>
+                </div>
+                <div class="exp-row">
+                    <div class="exp-year">2025</div>
+                    <div class="exp-info">
+                        <h4>Cybersecurity Intern</h4>
+                        <span>Redynox</span>
+                        <p style="margin-top: 0.5rem;">Performed network scans using Nmap/Netcat and conducted web application SQL injection testing.</p>
+                    </div>
+                </div>
+                <div class="exp-row">
+                    <div class="exp-year">2024</div>
+                    <div class="exp-info">
+                        <h4>Freelance Web Developer</h4>
+                        <span>BiMa Maschinen & Zubehör</span>
+                        <p style="margin-top: 0.5rem;">Designed custom WordPress layouts, integrating frontend systems and implementing vital security enhancements.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Clearances // Data</h2>
+            <div class="grid-2">
+                <div class="cred-box">
+                    <h3 style="color: var(--text-main); margin-bottom: 1.5rem; font-size: 1.5rem;">[ EDUCATION ]</h3>
+                    <ul class="cred-list">
+                        <li>
+                            <span class="cred-title">B.Sc. Computer Science</span>
+                            <span class="cred-issuer">LAGOS STATE UNIVERSITY (2024-PRES)</span>
+                        </li>
+                        <li>
+                            <span class="cred-title">Python & Web Foundation</span>
+                            <span class="cred-issuer">FREECODECAMP (2025)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cred-box">
+                    <h3 style="color: var(--text-main); margin-bottom: 1.5rem; font-size: 1.5rem;">[ CERTIFICATIONS ]</h3>
+                    <ul class="cred-list">
+                        <li><span class="cred-title">Intro to Cybersecurity</span><span class="cred-issuer">CISCO</span></li>
+                        <li><span class="cred-title">Networking Essentials</span><span class="cred-issuer">CISCO</span></li>
+                        <li><span class="cred-title">ISC2 Candidate</span><span class="cred-issuer">ISC2</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="footer-cta">
+                <h2 style="color: var(--bg-dark); border-bottom: none; margin-bottom: 0;">READY TO BUILD?</h2>
+                <p style="margin: 1rem auto 0 auto; color: var(--bg-dark); font-weight: 700;">Skip the forms. Let's talk directly.</p>
+                
+                <a href="https://wa.me/2348104599093" target="_blank" class="btn-massive">
+                    PING MY WHATSAPP ↗
+                </a>
+                
+                <div style="margin-top: 3rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem;">
+                    <a href="https://github.com/Timskid11" target="_blank" style="color: var(--bg-dark); font-weight: 900; text-decoration: none;">// GITHUB</a>
+                    <a href="https://linkedin.com/in/timilehin-oyinlola" target="_blank" style="color: var(--bg-dark); font-weight: 900; text-decoration: none;">// LINKEDIN</a>
+                    <a href="mailto:timilehinoyinlola3@gmail.com" style="color: var(--bg-dark); font-weight: 900; text-decoration: none;">// EMAIL</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="modal-overlay" id="gallery-modal">
+        <div class="modal-header">
+            <h2 class="modal-title" id="modal-title">Project Name</h2>
+            <button class="btn-close" id="btn-close">CLOSE [X]</button>
+        </div>
+        <div class="modal-gallery-grid" id="modal-grid">
+            </div>
+    </div>
+
+    <script>
+        // 1. Image Database
+        const projectData = {
+            'aiquizedu': {
+                title: 'AIQUIZEDU // PLATFORM UI',
+                images: [
+                    '<div class="gallery-item"><img src="images/aiquizedu-ui.png" alt="Aiquizedu App Screens" onerror="this.style.display=\'none\'; this.parentNode.innerHTML=\'[ IMAGE: AI APP SCREENS ]\'"></div>'
+                ]
+            },
+            'vigoride': {
+                title: 'VIGORIDE // TRACKING UI',
+                images: [
+                    '<div class="gallery-item"><img src="images/vigoride-ui.png" alt="Order Tracking Web UI" onerror="this.style.display=\'none\'; this.parentNode.innerHTML=\'[ IMAGE: LIVE MAP UI ]\'"></div>'
+                ]
+            },
+            'crudewatch': {
+                title: 'CRUDEWATCH // SYSTEM UI',
+                images: [
+                    '<div class="gallery-item"><img src="images/crudewatch-1.jpg" alt="Dashboard" onerror="this.style.display=\'none\'; this.parentNode.innerHTML=\'[ UPLOADING DASHBOARD IMAGE... ]\'"></div>'
+                ]
+            },
+            'fellowship': {
+                title: 'FELLOWSHIP PORTAL // SYSTEM UI',
+                images: [
+                    '<div class="gallery-item"><img src="images/fellowship-1.jpg" alt="Login Screen" onerror="this.style.display=\'none\'; this.parentNode.innerHTML=\'[ UPLOADING LOGIN UI... ]\'"></div>'
+                ]
+            }
+        };
+
+        const modal = document.getElementById('gallery-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalGrid = document.getElementById('modal-grid');
+        const btnClose = document.getElementById('btn-close');
+        const galleryButtons = document.querySelectorAll('.btn-gallery');
+
+        galleryButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const projectId = e.target.getAttribute('data-project');
+                const data = projectData[projectId];
+                
+                if(data) {
+                    modalTitle.innerText = data.title;
+                    modalGrid.innerHTML = data.images.join('');
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => { modalGrid.innerHTML = ''; }, 300);
+        };
+
+        btnClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+    </script>
+</body>
+</html>
