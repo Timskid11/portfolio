@@ -70,34 +70,43 @@
         .marquee-content span { margin: 0 1.5rem; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* BENTO GRID & READABILITY FIX */
+        /* BENTO GRID - READABILITY FIX INJECTED HERE */
         .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; }
         .project-card {
             background: var(--bg-dark); border: var(--border-thick); padding: 2rem;
-            position: relative; display: flex; flex-direction: column; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative; display: flex; flex-direction: column; transition: 0.3s;
         }
         .project-card::before { content: ''; position: absolute; top: 6px; left: 6px; right: -10px; bottom: -10px; background: var(--text-main); z-index: -1; transition: 0.3s; }
         
-        /* THE HOVER FIX: TEXT TURNS BLACK ON YELLOW BACKGROUND */
-        .project-card:hover { background: var(--acid-yellow); color: #000; border-color: #000; transform: translate(-3px, -3px); }
-        .project-card:hover h3 { color: #000; }
-        .project-card:hover p { color: #222; }
-        .project-card:hover .tech-tag { border-color: #000; color: #000; }
+        /* THE CRITICAL READABILITY FIX */
+        .project-card:hover { 
+            background: var(--acid-yellow); 
+            transform: translate(-3px, -3px); 
+            border-color: #000;
+        }
+        /* Force all children to Black on hover */
+        .project-card:hover h3, 
+        .project-card:hover p, 
+        .project-card:hover .tech-tag { 
+            color: #000 !important; 
+            border-color: #000 !important;
+        }
         .project-card:hover::before { background: var(--cyan-neon); }
 
-        .tech-tag { border: 2px solid var(--text-main); padding: 0.2rem 0.5rem; font-size: 0.75rem; font-weight: 700; display: inline-block; margin: 0 0.4rem 0.4rem 0; text-transform: uppercase; }
+        .tech-tag { border: 2px solid var(--text-main); padding: 0.2rem 0.5rem; font-size: 0.75rem; font-weight: 700; display: inline-block; margin: 0 0.4rem 0.4rem 0; text-transform: uppercase; transition: 0.3s; }
         .tag-collab { border-color: var(--cyan-neon); color: var(--cyan-neon); }
 
         .btn-gallery {
             margin-top: auto; background: var(--cyan-neon); color: var(--bg-dark); border: 3px solid var(--bg-dark);
-            padding: 0.8rem; font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; cursor: pointer; text-transform: uppercase;
+            padding: 0.8rem; font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s;
         }
+        /* High contrast button on hover */
         .project-card:hover .btn-gallery { background: #000; color: var(--cyan-neon); border-color: #000; }
 
         /* 100 DAY REPO LINKS */
         .repo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
         .repo-link { display: block; text-decoration: none; color: var(--bg-dark); background: var(--text-main); border: var(--border-thick); padding: 1.5rem; transition: 0.2s; }
-        .repo-link:hover { background: var(--acid-yellow); color: #000; transform: scale(1.02); }
+        .repo-link:hover { background: var(--acid-yellow); color: #000 !important; transform: scale(1.02); }
         .repo-day { font-family: var(--font-display); font-size: 2.5rem; line-height: 1; }
         .repo-title { font-weight: 900; text-transform: uppercase; font-size: 0.9rem; margin-top: 5px; }
 
@@ -130,7 +139,7 @@
         /* FOOTER & CONTACT */
         .footer-cta { background: var(--text-main); color: var(--bg-dark); padding: 4rem 1.5rem; border: var(--border-thick); text-align: center; }
         .btn-massive { display: block; font-family: var(--font-display); font-size: clamp(1.8rem, 5vw, 3.5rem); text-transform: uppercase; text-decoration: none; color: var(--bg-dark); background: var(--cyan-neon); border: 4px solid var(--bg-dark); padding: 1rem; margin-top: 2rem; box-shadow: 8px 8px 0px var(--bg-dark); transition: 0.2s; }
-        .btn-massive:hover { background: #000; color: var(--cyan-neon); transform: translate(-4px, -4px); box-shadow: 12px 12px 0px var(--acid-yellow); }
+        .btn-massive:hover { transform: translate(-4px, -4px); box-shadow: 12px 12px 0px var(--acid-yellow); background: #000; color: var(--cyan-neon); }
         .social-links { margin-top: 2.5rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; font-weight: 900; }
         .social-links a { color: var(--bg-dark); text-decoration: none; border-bottom: 3px solid var(--bg-dark); font-size: 1.1rem; }
     </style>
@@ -155,7 +164,7 @@
             <h1>TIMILEHIN</h1>
             <h1 class="h1-outline">OYINLOLA</h1>
             <p style="margin-top: 1.5rem; font-size: 1.3rem; font-weight: 700; max-width: 800px; color: #ccc;">
-                Full-Stack Engineer & Security Analyst. Undergrad at LASU. Engineering secure, performance-driven applications across the stack.
+                Full-Stack Engineer & Security Analyst. Undergrad at LASU. Specializing in secure software architectures and high-performance frontends.
             </p>
         </section>
 
@@ -194,7 +203,7 @@
 
                 <article class="project-card">
                     <h3>Portal Tech Co.</h3>
-                    <p>Hardware e-commerce interface designed for category-driven navigation and high-contrast UX.</p>
+                    <p>Hardware e-commerce interface designed for category-driven navigation and high-contrast hardware imagery.</p>
                     <div style="margin-bottom: 1.5rem;">
                         <span class="tech-tag">UI/UX</span><span class="tech-tag">Frontend</span>
                     </div>
@@ -203,7 +212,7 @@
 
                 <article class="project-card">
                     <h3>Crudewatch Admin</h3>
-                    <p>Secure Flask backend for fuel price tracking with permission-based approval workflows.</p>
+                    <p>Secure Flask backend for fuel price tracking with permission-based approval workflows and admin dashboard.</p>
                     <div style="margin-bottom: 1.5rem;">
                         <span class="tech-tag">Flask</span><span class="tech-tag">SQL</span><span class="tech-tag">Security</span>
                     </div>
@@ -251,6 +260,10 @@
                 <div class="exp-info"><h4>Redynox</h4><span>Cybersecurity Intern</span></div>
             </div>
             <div class="exp-row">
+                <div class="exp-year">2023-2025</div>
+                <div class="exp-info"><h4>DAMOLTIM GLOBAL VENTURE</h4><span>CAC Registration Expert // Compliance</span></div>
+            </div>
+            <div class="exp-row">
                 <div class="exp-year">2024</div>
                 <div class="exp-info"><h4>BiMa Maschinen</h4><span>Freelance Dev (Germany)</span></div>
             </div>
@@ -262,12 +275,14 @@
                 <div class="cred-box">
                     <h3>Education</h3>
                     <p style="color: var(--cyan-neon); font-weight: 900;">B.Sc. Computer Science</p>
-                    <p>Lagos State University (2024-Present)</p>
+                    <p>LASU (2024-Present)</p>
+                    <p style="font-size: 0.8rem; margin-top: 5px;">Honors: Fresher of the Year (TACSFON LASU)</p>
                 </div>
                 <div class="cred-box">
                     <h3>Security Certs</h3>
                     <div class="cert-check">ISC2 Candidate</div>
                     <div class="cert-check">Cisco Networking Essentials</div>
+                    <div class="cert-check">freeCodeCamp Python Mastery</div>
                     <div class="cert-check">CCNA (In View)</div>
                 </div>
             </div>
@@ -276,7 +291,7 @@
         <section>
             <div class="footer-cta">
                 <h2 style="color: var(--bg-dark); border-bottom: none; margin-bottom: 0;">LET'S CONNECT</h2>
-                <p style="color: var(--bg-dark); font-weight: 900; margin-top: 1rem; font-size: 1.1rem; border-bottom: 3px solid var(--bg-dark); display: inline-block;">timilehinoyinlola3@gmail.com</p>
+                <p style="color: var(--bg-dark); font-weight: 900; margin-top: 1rem; border-bottom: 3px solid var(--bg-dark); display: inline-block;">timilehinoyinlola3@gmail.com</p>
                 
                 <a href="https://wa.me/2348104599093" target="_blank" class="btn-massive">PING WHATSAPP ↗</a>
                 
